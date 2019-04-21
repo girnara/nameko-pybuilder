@@ -1,0 +1,35 @@
+FROM debian:jessie
+
+RUN apt-get update && \
+    apt-get install -qyy \
+    -o APT::Install-Recommends=false -o APT::Install-Suggests=false \
+    python3 python-pip ca-certificates libpq-dev python-psycopg2 curl netcat rlwrap telnet && \
+    cd /usr/local/bin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN pip install virtualenv
+
+RUN virtualenv -p python3 /var/nameko/orders/venv
+RUN . /var/nameko/orders/venv/bin/activate; pip install -U pip
+
+COPY . /var/nameko/orders
+
+RUN chmod +x /var/nameko/orders/run.sh
+
+RUN apt-get update
+RUN apt-get install gcc -y
+
+RUN apt-get install python3-pip -y
+RUN . /var/nameko/orders/venv/bin/activate; \
+    pip install pybuilder
+
+WORKDIR /var/nameko/orders/
+
+RUN . /var/nameko/orders/venv/bin/activate; \
+    pyb
+
+EXPOSE 8000
+
+CMD . /var/nameko/orders/venv/bin/activate; \
+    /var/nameko/orders/run.sh;

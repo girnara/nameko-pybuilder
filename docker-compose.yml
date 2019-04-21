@@ -1,0 +1,93 @@
+version: "2"
+services:
+  rabbit:
+    container_name: nameko-rabbitmq
+    image: rabbitmq:3.6-management
+    ports:
+        - "15673:15672" # Exposing RabbitMQ web management on different port for convenience
+    restart: always
+
+  postgres:
+    container_name: nameko-postgres
+    image: postgres
+    ports:
+        - "5433:5432" # Exposing Postgres on different port for convenience
+    environment:
+        POSTGRES_DB: "orders"
+        POSTGRES_PASSWORD: "password"
+        POSTGRES_USER: "postgres"
+    restart: always
+
+  redis:
+    container_name: nameko-redis
+    image: redis
+    ports:
+        - "6380:6379" # Exposing Redis on different port for convenience
+    command: [
+      "bash", "-c",
+      '
+       docker-entrypoint.sh
+       --requirepass password
+      '
+    ]
+    restart: always
+
+  orders:
+    container_name: nameko-orders
+    image: girnara/nameko-orders:1.0.0
+    depends_on:
+      - rabbit
+      - postgres
+    ports:
+        - "8001:8000"
+    links:
+        - "rabbit:nameko-rabbitmq"
+        - "postgres:nameko-postgres"
+    environment:
+        DB_PASSWORD: "password"
+        DB_USER: "postgres"
+        DB_HOST: "postgres"
+        DB_NAME: "orders"
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+
+  products:
+    container_name: nameko-products
+    image: girnara/nameko-products:1.0.0
+    depends_on:
+      - rabbit
+      - redis
+    ports:
+        - "8002:8000"
+    links:
+        - "rabbit:nameko-rabbitmq"
+        - "redis:nameko-redis"
+    environment:
+        REDIS_HOST: "redis"
+        REDIS_PORT: "6379"
+        REDIS_INDEX: "11"
+        REDIS_PASSWORD: "password"
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+
+  gateway:
+    container_name: nameko-gateway
+    image: girnara/nameko-gateway:1.0.0
+    depends_on:
+      - rabbit
+    ports:
+        - "8003:8000"
+    links:
+        - "rabbit:nameko-rabbitmq"
+    environment:
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
