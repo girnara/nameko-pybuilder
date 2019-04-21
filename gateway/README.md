@@ -8,4 +8,6 @@
 
 
 ## Ssh to Docker box
- ```$ docker run -i -t girnara/nameko-gateway:1.0.0 /bin/bash```
+ ```
+ $ docker run -i -t girnara/nameko-gateway:1.0.0 /bin/bash
+ ```
