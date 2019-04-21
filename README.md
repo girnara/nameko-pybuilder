@@ -73,10 +73,11 @@ $ curl 'http://localhost:8003/products/the_odyssey'
 ```
 
 
-## Running tests
+## Removing docker exited images.
 
-Ensure RabbitMQ, PostgreSQL and Redis are running and `config.yaml` files for each service are configured correctly.
-
-`$ make coverage`
-`$ docker rm $(docker ps -qa --filter "status=exited")`
-`$ docker rmi $(docker images -q -f dangling=true)`
+```
+$ docker rm $(docker ps -qa --filter "status=exited")
+```
+```
+$ docker rmi $(docker images -q -f dangling=true)
+```
