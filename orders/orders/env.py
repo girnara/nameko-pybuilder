@@ -3,7 +3,6 @@ import os
 from alembic import context
 from sqlalchemy import create_engine
 from logging.config import fileConfig
-import sys
 from orders.models import DeclarativeBase
 
 # this is the Alembic Config object, which provides

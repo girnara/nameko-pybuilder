@@ -18,11 +18,11 @@ while ! is_ready; do
 done
 
 # Run Migrations
-cd /var/nameko/orders/orders
-source /var/nameko/orders/venv/bin/activate
-
+cd /var/nameko/
+source /var/nameko/venv/bin/activate
+export PYTHONPATH=$PYTHONPATH:/var/nameko
 alembic upgrade head
-cd /var/nameko/orders/
+
 # Run Service
 
-nameko run --config /var/nameko/orders/config.yml orders.service --backdoor 3000
+nameko run --config /var/nameko/config.yml orders.service --backdoor 3000

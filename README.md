@@ -73,6 +73,44 @@ $ curl 'http://localhost:8003/products/the_odyssey'
 ```
 
 
+## Create Order
+
+```
+$ curl -XPOST -d '{"order_details": [{"product_id": "the_odyssey", "price": "100000.99", "quantity": 1}]}' 'http://localhost:8003/orders'
+```
+
+```
+{"id": 1}
+```
+
+## Get Order
+
+```
+$ curl 'http://localhost:8003/orders/1'
+```
+
+```
+{
+  "id": 1,
+  "order_details": [
+    {
+      "id": 1,
+      "quantity": 1,
+      "product_id": "the_odyssey",
+      "image": "http://www.example.com/airship/images/the_odyssey.jpg",
+      "price": "100000.99",
+      "product": {
+        "maximum_speed": 5,
+        "id": "the_odyssey",
+        "title": "The Odyssey",
+        "passenger_capacity": 101,
+        "in_stock": 9
+      }
+    }
+  ]
+}
+```
+
 ## Removing docker exited images.
 
 ```
