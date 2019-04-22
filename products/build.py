@@ -17,10 +17,10 @@ use_plugin('python.pydev')
 use_plugin('python.distutils')
 
 name = 'nameko-products'
-authors = [Author('Abhay Girnara', 'abhay@msg.ai')]
-license = 'MsgAI License, Version 2.0'
+authors = [Author('Abhay Girnara', 'girnara.abhay@gmail.com')]
+license = 'Test License, Version 2.0'
 summary = 'Orders management service for creating/retrieving the orders'
-url = 'https://github.com/msgai/nameko-python/products'
+url = 'https://github.com/girnara/nameko-pybuilder'
 version = '1.0.0'
 
 
