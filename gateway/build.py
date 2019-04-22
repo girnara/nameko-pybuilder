@@ -17,10 +17,10 @@ use_plugin('python.pydev')
 use_plugin('python.distutils')
 
 name = 'nameko-gateway'
-authors = [Author('Abhay Girnara', 'abhay@msg.ai')]
-license = 'MsgAI License, Version 2.0'
+authors = [Author('Abhay Girnara', 'girnara.abhay@gmail.com')]
+license = 'Test License, Version 2.0'
 summary = 'Gateway Service for Interacting multiple micro-services internally'
-url = 'https://github.com/msgai/nameko-python/gateway'
+url = 'https://github.com/girnara/nameko-pybuilder'
 version = '1.0.0'
 
 
